@@ -90,35 +90,6 @@ const AboutSection = () => {
             </div>
           </div>
         </div>
-
-        {/* Mission & Vision Cards */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Mission Card */}
-          <div className="group p-8 rounded-3xl bg-background border border-border hover:border-gold/30 transition-all duration-300 hover:shadow-card">
-            <div className="w-16 h-16 rounded-2xl gradient-gold flex items-center justify-center mb-6 group-hover:shadow-glow transition-shadow">
-              <Target className="w-8 h-8 text-primary-foreground" />
-            </div>
-            <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Our Mission</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              To empower individuals through education, healthcare, spirituality, and compassion. 
-              We aim to help children build brighter futures, support people suffering from critical 
-              medical conditions, and provide spiritual enrichment through guidance and meditation programs.
-            </p>
-          </div>
-
-          {/* Vision Card */}
-          <div className="group p-8 rounded-3xl bg-background border border-border hover:border-saffron/30 transition-all duration-300 hover:shadow-card">
-            <div className="w-16 h-16 rounded-2xl gradient-saffron flex items-center justify-center mb-6 group-hover:shadow-glow transition-shadow">
-              <Eye className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Our Vision</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              We envision a world where everyone has access to education, healthcare, spiritual 
-              guidance, and opportunities for growth. We strive for a future where compassion and 
-              empowerment eliminate suffering, creating a peaceful and thriving global community.
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );

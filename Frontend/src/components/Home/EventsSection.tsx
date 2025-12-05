@@ -1,5 +1,6 @@
 import { Calendar, MapPin, ArrowRight, Award, HelpCircle, Music, Crown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const events = [
   {
@@ -119,10 +120,12 @@ const EventsSection = () => {
 
         {/* CTA */}
         <div className="text-center mt-12">
+          <Link to='/events'>
           <Button variant="outline" size="lg">
             View All Events
             <ArrowRight className="w-4 h-4" />
           </Button>
+          </Link>
         </div>
       </div>
     </section>
