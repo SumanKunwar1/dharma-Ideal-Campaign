@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { Menu, X, Heart } from "lucide-react"
+import { Menu, X, Heart, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const PremiumHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -27,6 +28,15 @@ const PremiumHeader = () => {
     { name: "About Us", path: "/about" },
     { name: "Programs", path: "/programs" },
     { name: "Events", path: "/events" },
+  ]
+
+  const dropdownLinks = [
+    { name: "Our Masters", path: "/masters" },
+    { name: "Popular Causes", path: "/causes" },
+    { name: "Membership", path: "/membership" },
+  ]
+
+  const secondaryLinks = [
     { name: "Team", path: "/team" },
     { name: "Sponsor", path: "/sponsor" },
     { name: "Volunteer", path: "/volunteer" },
@@ -66,6 +76,34 @@ const PremiumHeader = () => {
                 {link.name}
               </Link>
             ))}
+
+            <div className="relative group">
+              <button className="flex items-center gap-1 text-[#7A5200] hover:text-[#F4C430] transition-colors nav-link">
+                More
+                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform" />
+              </button>
+              <div className="absolute left-0 mt-0 w-48 bg-white border border-[#F4C430]/20 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
+                {dropdownLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className="block px-4 py-2 text-[#7A5200] hover:bg-[#F4C430]/10 hover:text-[#F4C430] transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+                <div className="border-t border-[#F4C430]/10 my-2"></div>
+                {secondaryLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className="block px-4 py-2 text-[#7A5200] hover:bg-[#F4C430]/10 hover:text-[#F4C430] transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
 
           {/* Desktop CTA */}
@@ -103,6 +141,38 @@ const PremiumHeader = () => {
                   {link.name}
                 </Link>
               ))}
+
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="px-4 py-2 rounded-lg text-[#7A5200] hover:bg-[#FFF8E7] flex items-center justify-between transition-colors text-left"
+              >
+                More
+                <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="bg-[#FFF8E7] rounded-lg ml-4">
+                  {dropdownLinks.map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className="block px-4 py-2 text-[#7A5200] hover:text-[#F4C430] transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                  <div className="border-t border-[#F4C430]/10 my-2"></div>
+                  {secondaryLinks.map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className="block px-4 py-2 text-[#7A5200] hover:text-[#F4C430] transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </nav>
             <Button className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] hover:from-[#F4C430] hover:to-[#DAA520] text-white border-0">
               <Heart className="w-4 h-4" />

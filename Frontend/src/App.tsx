@@ -15,6 +15,9 @@ import EventsPage from "./pages/EventsPage"
 import TeamPage from "./pages/TeamPage"
 import SponsorPage from "./pages/SponsorPage"
 import VolunteerPage from "./pages/VolunteerPage"
+import MastersPage from "./pages/MasterPage"
+import CausesPage from "./pages/CausePage"
+import MembershipPage from "./pages/MembershipPage"
 import NotFound from "./pages/NotFound"
 
 const queryClient = new QueryClient()
@@ -38,6 +41,9 @@ const App = () => {
             <Route path="/team" element={<TeamPage />} />
             <Route path="/sponsor" element={<SponsorPage />} />
             <Route path="/volunteer" element={<VolunteerPage />} />
+            <Route path="/masters" element={<MastersPage />} />
+            <Route path="/causes" element={<CausesPage />} />
+            <Route path="/membership" element={<MembershipPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
