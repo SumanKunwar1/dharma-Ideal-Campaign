@@ -7,6 +7,7 @@ import PremiumHeader from "@/components/layout/PremiumHeader"
 import Footer from "@/components/layout/Footer"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import ScrollToTop from "@/components/ScrollToTop"
 
 interface Event {
   icon: any
@@ -89,7 +90,9 @@ const EventsPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF8E7]">
+    <>
+      <ScrollToTop />
+      <main className="min-h-screen bg-[#FFF8E7]">
       <PremiumHeader />
       <div className="pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -213,10 +216,11 @@ const EventsPage = () => {
           </div>
         </div>
       )}
-
       <Footer />
     </main>
+    </>
   )
+
 }
 
 export default EventsPage

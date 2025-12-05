@@ -99,7 +99,7 @@ const Footer = () => {
         <div className="border-t border-background/10 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-background/60 text-sm">
-              © 2024 DHARMA Ideal Campaign. All rights reserved.
+              © 2025 DHARMA Ideal Campaign. All rights reserved.
             </p>
             <p className="text-background/60 text-sm flex items-center gap-1">
               Made with <Heart className="w-4 h-4 text-spiritual-red" /> for a better world

@@ -1,13 +1,13 @@
 import PremiumHeader from "@/components/layout/PremiumHeader"
 import Footer from "@/components/layout/Footer"
-import HeroSection from "@/components/HeroSection"
-import AboutSection from "@/components/AboutSection"
-import ProgramsSection from "@/components/ProgramsSection"
-import CausesSection from "@/components/CausesSection"
-import EventsSection from "@/components/EventsSection"
-import TeamSection from "@/components/TeamSection"
-import TestimonialsSection from "@/components/TestimonialsSection"
-import ContactSection from "@/components/ContactSection"
+import HeroSection from "@/components/Home/HeroSection"
+import AboutSection from "@/components/Home/AboutSection"
+import ProgramsSection from "@/components/Home/ProgramsSection"
+import CausesSection from "@/components/Home/CausesSection"
+import EventsSection from "@/components/Home/EventsSection"
+import TeamSection from "@/components/Home/TeamSection"
+import TestimonialsSection from "@/components/Home/TestimonialsSection"
+import ContactSection from "@/components/Home/ContactSection"
 
 const HomePage = () => {
   return (
