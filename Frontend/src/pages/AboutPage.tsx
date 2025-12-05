@@ -1,4 +1,4 @@
-import { Heart, Target, Award, Users } from "lucide-react"
+import { Heart, Target, Award, Users, Eye } from "lucide-react"
 import PremiumHeader from "@/components/layout/PremiumHeader"
 import Footer from "@/components/layout/Footer"
 import { Button } from "@/components/ui/button"
@@ -11,11 +11,11 @@ const AboutPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Hero Section */}
           <div className="mb-20">
-            <h1 className="font-serif text-5xl md:text-6xl font-bold text-[#333333] mb-6">
+            <h1 className="font-serif text-5xl md:text-6xl font-bold text-[#333333] mb-6 justfy-center text-center">
               About Our <span className="gradient-gold-text">Masters</span>
             </h1>
-            <p className="text-xl text-[#7A5200] max-w-3xl">
-              Learn about the visionary leaders and compassionate hearts behind DHARMA Ideal Campaign who dedicate their
+            <p className="text-xl text-[#7A5200] max-w-3xl justify-center mx-auto text-center">
+              Learn about the visionary leaders and compassionate hearts behind Dharma Ideal Campaign who dedicate their
               lives to spreading wisdom and creating lasting change.
             </p>
           </div>
@@ -39,7 +39,7 @@ const AboutPage = () => {
             <div>
               <h2 className="font-serif text-4xl font-bold text-[#333333] mb-6">Our Founding Vision</h2>
               <p className="text-[#7A5200] mb-4 leading-relaxed">
-                DHARMA Ideal Campaign was founded on the principle that genuine change comes from combining spiritual
+                Dharma Ideal Campaign was founded on the principle that genuine change comes from combining spiritual
                 wisdom with practical action. Our masters have spent decades studying compassion, meditation, and
                 community development.
               </p>
@@ -76,9 +76,39 @@ const AboutPage = () => {
                   <h3 className="font-semibold text-[#333333] mb-2 text-lg">{value.title}</h3>
                   <p className="text-[#7A5200] text-sm">{value.desc}</p>
                 </div>
-              ))}
-            </div>
+            ))}
           </div>
+        </div>
+
+        {/* Mission & Vision Cards */}
+        <div className="grid md:grid-cols-2 gap-8 mb-20">
+          {/* Mission Card */}
+          <div className="group p-8 rounded-3xl bg-background border border-border hover:border-gold/30 transition-all duration-300 hover:shadow-card">
+            <div className="w-16 h-16 rounded-2xl gradient-gold flex items-center justify-center mb-6 group-hover:shadow-glow transition-shadow">
+              <Target className="w-8 h-8 text-primary-foreground" />
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Our Mission</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              To empower individuals through education, healthcare, spirituality, and compassion. 
+              We aim to help children build brighter futures, support people suffering from critical 
+              medical conditions, and provide spiritual enrichment through guidance and meditation programs.
+            </p>
+          </div>
+
+          {/* Vision Card */}
+          <div className="group p-8 rounded-3xl bg-background border border-border hover:border-saffron/30 transition-all duration-300 hover:shadow-card">
+            <div className="w-16 h-16 rounded-2xl gradient-saffron flex items-center justify-center mb-6 group-hover:shadow-glow transition-shadow">
+              <Eye className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-foreground mb-4">Our Vision</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              We envision a world where everyone has access to education, healthcare, spiritual 
+              guidance, and opportunities for growth. We strive for a future where compassion and 
+              empowerment eliminate suffering, creating a peaceful and thriving global community.
+            </p>
+          </div>
+        </div>
+      </div>
 
           {/* Statistics */}
           <div className="bg-gradient-to-r from-[#F4C430]/10 via-[#FF8C00]/10 to-[#1E90FF]/10 rounded-3xl p-12 border border-[#F4C430]/20">
@@ -95,7 +125,6 @@ const AboutPage = () => {
                   <p className="text-[#7A5200] font-medium">{stat.label}</p>
                 </div>
               ))}
-            </div>
           </div>
         </div>
       </div>
