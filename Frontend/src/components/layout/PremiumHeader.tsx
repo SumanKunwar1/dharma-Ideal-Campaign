@@ -56,12 +56,12 @@ const PremiumHeader = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
-            <div className="w-12 h-12 rounded-full gradient-gold flex items-center justify-center shadow-gold group-hover:shadow-glow transition-shadow duration-300">
-              <span className="text-2xl font-bold text-white">☸</span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="font-serif text-xl font-bold text-[#333333]">DHARMA</span>
-              <span className="block text-xs text-[#7A5200] tracking-wider font-medium">Ideal Campaign</span>
+            <div className="flex items-center justify-center">
+              <img 
+                src="https://res.cloudinary.com/dihev9qxc/image/upload/v1768125463/dharma-logo_xeh5nn.png" 
+                alt="Dharma Ideal Campaign Logo"
+                className="h-12 w-auto group-hover:scale-105 transition-transform duration-300"
+              />
             </div>
           </Link>
 

@@ -20,12 +20,12 @@ const Footer = () => {
           {/* About Column */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full gradient-gold flex items-center justify-center">
-                <span className="text-xl">☸</span>
-              </div>
-              <div>
-                <span className="font-serif text-lg font-bold">DHARMA</span>
-                <span className="block text-xs text-background/60 tracking-wider">Ideal Campaign</span>
+              <div className="flex items-center justify-center">
+                <img 
+                  src="https://res.cloudinary.com/dihev9qxc/image/upload/v1768125463/dharma-logo_xeh5nn.png" 
+                  alt="Dharma Ideal Campaign Logo"
+                  className="h-10 w-auto"
+                />
               </div>
             </div>
             <p className="text-background/70 text-sm leading-relaxed mb-6">
