@@ -19,6 +19,7 @@ import MastersPage from "./pages/MasterPage"
 import CausesPage from "./pages/CausePage"
 import MembershipPage from "./pages/MembershipPage"
 import NotFound from "./pages/NotFound"
+import ProgramDetails from "./pages/ProgramDetails"
 
 const queryClient = new QueryClient()
 
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/programs" element={<ProgramsPage />} />
+            <Route path="/programs/:id" element={<ProgramDetails />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/sponsor" element={<SponsorPage />} />
