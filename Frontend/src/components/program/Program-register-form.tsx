@@ -17,38 +17,52 @@ export const ProgramRegisterForm: React.FC<RegisterFormProps> = ({ program }) =>
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
 
-    try {
-      const formData = new FormData(e.currentTarget)
-      const data = {
-        name: formData.get("name"),
-        email: formData.get("email"),
-        phone: formData.get("phone"),
-        message: formData.get("message"),
-        program: program.title,
-      }
+    const formData = new FormData(e.currentTarget)
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      message: formData.get("message"),
+      program: program.title,
+    }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
+    // Validate form data
+    if (!data.name || !data.email || !data.phone) {
       toast({
-        title: "Success!",
-        description: "Your registration has been submitted. We'll contact you soon.",
-      })
-
-      e.currentTarget.reset()
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
+        title: "Validation Error",
+        description: "Please fill in all required fields.",
         variant: "destructive",
       })
-    } finally {
       setLoading(false)
+      return
     }
+
+    // Simulate form submission without API
+    setTimeout(() => {
+      try {
+        // Store locally for demonstration
+        console.log("Registration data:", data)
+
+        toast({
+          title: "Success!",
+          description: "Your registration has been submitted. We'll contact you soon.",
+        })
+
+        e.currentTarget.reset()
+        setLoading(false)
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again.",
+          variant: "destructive",
+        })
+        setLoading(false)
+      }
+    }, 800)
   }
 
   return (
@@ -88,6 +102,7 @@ export const ProgramRegisterForm: React.FC<RegisterFormProps> = ({ program }) =>
         <Input
           id="phone"
           name="phone"
+          required
           placeholder="Enter your phone number"
           className="border-[#F4C430]/30 focus:border-[#F4C430]"
         />

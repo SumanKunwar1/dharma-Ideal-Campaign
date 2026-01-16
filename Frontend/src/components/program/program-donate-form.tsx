@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { Heart } from "lucide-react"
+import { Heart, Copy, Check } from "lucide-react"
 import type { Program } from "@/data/programs"
 
 interface DonateFormProps {
@@ -15,18 +15,34 @@ interface DonateFormProps {
 
 const DONATION_AMOUNTS = [50, 100, 250, 500, 1000]
 
+const QR_CODE_SVG = `
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-32 h-32">
+    <rect width="200" height="200" fill="white"/>
+    <rect x="20" y="20" width="40" height="40" fill="black"/>
+    <rect x="30" y="30" width="20" height="20" fill="white"/>
+    <rect x="140" y="20" width="40" height="40" fill="black"/>
+    <rect x="150" y="30" width="20" height="20" fill="white"/>
+    <rect x="20" y="140" width="40" height="40" fill="black"/>
+    <rect x="30" y="150" width="20" height="20" fill="white"/>
+    <rect x="60" y="60" width="80" height="80" fill="none" stroke="black" strokeWidth="2"/>
+    <circle cx="100" cy="100" r="20" fill="black"/>
+  </svg>
+`
+
 export const ProgramDonateForm: React.FC<DonateFormProps> = ({ program }) => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null)
   const [customAmount, setCustomAmount] = useState("")
   const [loading, setLoading] = useState(false)
   const [totalDonated, setTotalDonated] = useState(0)
   const [updatedFunding, setUpdatedFunding] = useState(program.fundingRaised)
+  const [showBankDetails, setShowBankDetails] = useState(false)
+  const [copied, setCopied] = useState(false)
   const { toast } = useToast()
 
   const finalAmount = selectedAmount || (customAmount ? Number.parseInt(customAmount) : 0)
   const newFundingTotal = updatedFunding + totalDonated
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!finalAmount || finalAmount < 1) {
@@ -40,31 +56,27 @@ export const ProgramDonateForm: React.FC<DonateFormProps> = ({ program }) => {
 
     setLoading(true)
 
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
+    setTimeout(() => {
       const newTotal = totalDonated + finalAmount
       setTotalDonated(newTotal)
       setUpdatedFunding(program.fundingRaised + newTotal)
 
       toast({
         title: "Thank You!",
-        description: `Your donation of $${finalAmount} to ${program.title} has been received. Your generosity makes a difference!`,
+        description: `Your donation of $${finalAmount} to ${program.title} has been recorded. Your generosity makes a difference!`,
       })
 
       setSelectedAmount(null)
       setCustomAmount("")
-      e.currentTarget.reset()
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
+      setShowBankDetails(true)
       setLoading(false)
-    }
+    }, 800)
+  }
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   const fundingPercentage = (newFundingTotal / program.fundingGoal) * 100
@@ -139,8 +151,93 @@ export const ProgramDonateForm: React.FC<DonateFormProps> = ({ program }) => {
         {loading ? "Processing..." : `Donate $${finalAmount || "0"}`}
       </Button>
 
+      {showBankDetails && (
+        <div className="bg-[#FFF8E7] border-2 border-[#F4C430] rounded-2xl p-6 space-y-4 mt-6">
+          <h4 className="font-serif text-lg font-bold text-[#333333] mb-4">Bank Transfer Details</h4>
+
+          <div className="space-y-3">
+            <div>
+              <p className="text-xs text-[#7A5200] mb-1">Account Holder</p>
+              <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-[#F4C430]/30">
+                <p className="font-semibold text-[#333333]">Charity Foundation Inc.</p>
+                <button
+                  type="button"
+                  onClick={() => handleCopy("Charity Foundation Inc.")}
+                  className="text-[#F4C430] hover:text-[#DAA520]"
+                >
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs text-[#7A5200] mb-1">Account Number</p>
+              <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-[#F4C430]/30">
+                <p className="font-semibold text-[#333333]">1234567890</p>
+                <button
+                  type="button"
+                  onClick={() => handleCopy("1234567890")}
+                  className="text-[#F4C430] hover:text-[#DAA520]"
+                >
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs text-[#7A5200] mb-1">Bank Name</p>
+              <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-[#F4C430]/30">
+                <p className="font-semibold text-[#333333]">National Bank</p>
+                <button
+                  type="button"
+                  onClick={() => handleCopy("National Bank")}
+                  className="text-[#F4C430] hover:text-[#DAA520]"
+                >
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs text-[#7A5200] mb-1">SWIFT Code</p>
+              <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-[#F4C430]/30">
+                <p className="font-semibold text-[#333333]">NBKIUSSXXX</p>
+                <button
+                  type="button"
+                  onClick={() => handleCopy("NBKIUSSXXX")}
+                  className="text-[#F4C430] hover:text-[#DAA520]"
+                >
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center pt-4 border-t border-[#F4C430]/30">
+            <p className="text-xs text-[#7A5200] mb-3 font-semibold">Scan QR Code</p>
+            <div className="bg-white p-3 rounded-lg border border-[#F4C430]/30">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-32 h-32">
+                <rect width="200" height="200" fill="white" />
+                <rect x="20" y="20" width="40" height="40" fill="black" />
+                <rect x="30" y="30" width="20" height="20" fill="white" />
+                <rect x="140" y="20" width="40" height="40" fill="black" />
+                <rect x="150" y="30" width="20" height="20" fill="white" />
+                <rect x="20" y="140" width="40" height="40" fill="black" />
+                <rect x="30" y="150" width="20" height="20" fill="white" />
+                <circle cx="100" cy="100" r="30" fill="black" />
+              </svg>
+            </div>
+            <p className="text-xs text-[#7A5200] mt-3 text-center">Scan this QR code with your mobile banking app</p>
+          </div>
+
+          <p className="text-xs text-[#7A5200] text-center pt-4 border-t border-[#F4C430]/30">
+            Thank you for your generous support. Your donation will be used to make a real impact.
+          </p>
+        </div>
+      )}
+
       <p className="text-xs text-center text-[#7A5200]">
-        Your donation is secure and will directly support {program.title} program activities.
+        Your donation will directly support {program.title} program activities.
       </p>
     </form>
   )
