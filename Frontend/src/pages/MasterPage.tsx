@@ -3,10 +3,10 @@ import Footer from "@/components/layout/Footer"
 
 const MastersPage = () => {
   const masters = [
-    { name: "Ven. Khen Rinpoche Sonam Gyurme", image: "/dharma-master-meditation-guru.jpg" },
-    { name: "H.E. Syalpa Tenzin Rinpoche", image: "/spiritual-teacher-buddhist-master.jpg" },
-    { name: "H.E Chhyogyal Rinpohe", image: "/rinpoche-teacher-compassion.jpg" },
-    { name: "H.E. Yongey Mingyur Rinpoche", image: "/buddhist-lama-spiritual-guide.jpg" },
+    { name: "Ven. Khen Rinpoche Sonam Gyurme", image: "https://res.cloudinary.com/dihev9qxc/image/upload/v1764919931/guru1_wja3ki.jpg" },
+    { name: "H.E. Syalpa Tenzin Rinpoche", image: "https://res.cloudinary.com/dihev9qxc/image/upload/v1764919931/guru2_gpefgk.jpg" },
+    { name: "H.E Chhyogyal Rinpohe", image: "https://res.cloudinary.com/dihev9qxc/image/upload/v1764919932/guru3_cocxkq.jpg" },
+    { name: "H.E. Yongey Mingyur Rinpoche", image: "https://res.cloudinary.com/dihev9qxc/image/upload/v1764919932/guru4_g0vuqo.jpg" },
     { name: "Dr. Khen Rinpoche Lharkyal Lama", image: "/dharma-teacher-wisdom.jpg" },
     { name: "H.E. Dolpo Tulku Rinpoche", image: "/tibetan-master-meditation.jpg" },
     { name: "H.E. Sangngak Tenzin Rinpoche", image: "/rinpoche-spiritual-practice.jpg" },
