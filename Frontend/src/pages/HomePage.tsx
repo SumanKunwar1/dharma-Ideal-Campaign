@@ -8,6 +8,7 @@ import EventsSection from "@/components/Home/EventsSection"
 import TeamSection from "@/components/Home/TeamSection"
 import TestimonialsSection from "@/components/Home/TestimonialsSection"
 import ContactSection from "@/components/Home/ContactSection"
+import SponsorVideosSection from "@/components/Home/SponsorVideosSection"
 
 const HomePage = () => {
   return (
@@ -16,6 +17,7 @@ const HomePage = () => {
       <div className="pt-20">
         <HeroSection />
         <AboutSection />
+        <SponsorVideosSection />
         <ProgramsSection />
         <CausesSection />
         <EventsSection />
