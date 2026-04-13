@@ -15,11 +15,7 @@ import {
   Copy,
   Check,
   Upload,
-  Play,
-  Pause,
-  ChevronDown,
-  ChevronUp,
-  X,
+  ChevronRight,
 } from "lucide-react"
 import PremiumHeader from "@/components/layout/PremiumHeader"
 import Footer from "@/components/layout/Footer"
@@ -44,7 +40,6 @@ const EVENTS = [
     tagline: "Starting from 14th of May",
     description:
       "Join us for our weekly retreat sessions focused on mindfulness, meditation, and spiritual growth.",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     raised: 0,
     goal: 500000,
     sponsorTypes: [
@@ -86,7 +81,6 @@ const EVENTS = [
     tagline: "Annual Sacred Practice",
     description:
       "The prestigious 3rd International Ngyungne Retreat bringing together practitioners from around the world.",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     raised: 0,
     goal: 1000000,
     sponsorTypes: [
@@ -379,7 +373,7 @@ function DonationFormDialog({
               <Label className="text-[#333333] font-semibold">
                 Upload Payment Screenshot *
               </Label>
-              <div className="mt-2 border-2 border-dashed border-[#F4C430]/40 rounded-xl p-6 text-center hover:border-[#F4C430] transition-colors">
+              <div className="mt-2 border-2 border-dashed border-[#F4C430]/40 rounded-xl p-6 text-center hover:border-[#F4C430] transition-colors relative">
                 <Upload className="w-8 h-8 text-[#F4C430] mx-auto mb-2" />
                 <p className="text-sm text-[#7A5200] mb-2">
                   {screenshot ? screenshot.name : "Click to upload or drag and drop"}
@@ -389,8 +383,7 @@ function DonationFormDialog({
                   accept="image/*"
                   required
                   onChange={(e) => setScreenshot(e.target.files?.[0] || null)}
-                  className="w-full opacity-0 absolute inset-0 cursor-pointer"
-                  style={{ position: "relative", opacity: 1, fontSize: "0.875rem" }}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
                 />
               </div>
             </div>
@@ -424,7 +417,7 @@ function DonationFormDialog({
   )
 }
 
-// ── Sponsor Form Dialog ───────────────────────────────────────────────────────
+// ── Sponsor Form Dialog (form only, no bank details) ──────────────────────────
 
 function SponsorFormDialog({
   open,
@@ -445,7 +438,6 @@ function SponsorFormDialog({
     address: "",
     message: "",
   })
-  const [screenshot, setScreenshot] = useState<File | null>(null)
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -455,14 +447,13 @@ function SponsorFormDialog({
 
   const handleReset = () => {
     setFormData({ name: "", organization: "", email: "", phone: "", address: "", message: "" })
-    setScreenshot(null)
     setSubmitted(false)
     onOpenChange(false)
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#FFF8E7]">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto bg-[#FFF8E7]">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl text-[#333333]">
             Become {sponsorType}
@@ -530,27 +521,6 @@ function SponsorFormDialog({
                 className="border-[#F4C430]/30 focus:border-[#F4C430]"
                 rows={3}
               />
-            </div>
-
-            <BankDetails />
-
-            <div>
-              <Label className="text-[#333333] font-semibold">
-                Upload Payment Screenshot *
-              </Label>
-              <div className="mt-2 border-2 border-dashed border-[#F4C430]/40 rounded-xl p-6 text-center hover:border-[#F4C430] transition-colors relative">
-                <Upload className="w-8 h-8 text-[#F4C430] mx-auto mb-2" />
-                <p className="text-sm text-[#7A5200] mb-2">
-                  {screenshot ? screenshot.name : "Click to upload or drag and drop"}
-                </p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  required
-                  onChange={(e) => setScreenshot(e.target.files?.[0] || null)}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
-              </div>
             </div>
 
             <Button
@@ -761,7 +731,7 @@ const SponsorPage = () => {
     priceNPR: string
   }>({ open: false, tierName: "", priceINR: "", priceNPR: "" })
 
-  const [expandedEvent, setExpandedEvent] = useState<string | null>(EVENTS[0].id)
+  const [selectedEvent, setSelectedEvent] = useState<string | null>(null)
 
   return (
     <main className="min-h-screen bg-[#FFF8E7]">
@@ -785,119 +755,168 @@ const SponsorPage = () => {
               Event <span className="gradient-gold-text">Sponsorships</span>
             </h2>
             <p className="text-center text-[#7A5200] mb-12 max-w-2xl mx-auto">
-              Choose an upcoming event and become a sponsor. Click on any sponsorship type to apply.
+              Choose an upcoming event and become a sponsor. Click on an event to see sponsorship opportunities.
             </p>
 
-            <div className="space-y-8">
-              {EVENTS.map((event) => (
-                <div
-                  key={event.id}
-                  id={event.id}
-                  className="bg-white rounded-3xl overflow-hidden shadow-card border border-[#F4C430]/20"
-                >
-                  {/* Event Header */}
+            {/* Event Cards */}
+            {selectedEvent === null ? (
+              <div className="grid md:grid-cols-2 gap-8">
+                {EVENTS.map((event) => (
                   <button
-                    onClick={() =>
-                      setExpandedEvent(expandedEvent === event.id ? null : event.id)
-                    }
-                    className="w-full p-6 md:p-8 flex items-center justify-between text-left hover:bg-[#FFF8E7]/50 transition-colors"
+                    key={event.id}
+                    id={event.id}
+                    onClick={() => setSelectedEvent(event.id)}
+                    className="group text-left bg-white rounded-3xl overflow-hidden shadow-card border border-[#F4C430]/20 hover:shadow-glow hover:border-[#F4C430]/50 transition-all duration-300"
                   >
-                    <div>
-                      <h3 className="font-serif text-2xl md:text-3xl font-bold text-[#333333]">
+                    <div className="bg-gradient-to-r from-[#F4C430] to-[#FF8C00] p-6">
+                      <h3 className="font-serif text-2xl md:text-3xl font-bold text-white">
                         {event.name}
                       </h3>
-                      <p className="text-[#F4C430] font-semibold mt-1">{event.tagline}</p>
-                      <p className="text-[#7A5200] mt-2 text-sm">{event.description}</p>
+                      <p className="text-white/90 font-medium mt-1">{event.tagline}</p>
                     </div>
-                    {expandedEvent === event.id ? (
-                      <ChevronUp className="w-6 h-6 text-[#F4C430] flex-shrink-0 ml-4" />
-                    ) : (
-                      <ChevronDown className="w-6 h-6 text-[#F4C430] flex-shrink-0 ml-4" />
-                    )}
-                  </button>
-
-                  {expandedEvent === event.id && (
-                    <div className="px-6 md:px-8 pb-8">
-                      {/* Video Section */}
-                      <div className="mb-8 rounded-2xl overflow-hidden aspect-video bg-black">
-                        <iframe
-                          src={event.videoUrl}
-                          title={event.name}
-                          className="w-full h-full"
-                          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
+                    <div className="p-6">
+                      <p className="text-[#7A5200] mb-4">{event.description}</p>
 
                       {/* Funding Progress */}
-                      <div className="bg-[#FFF8E7] border border-[#F4C430]/30 rounded-xl p-4 mb-8">
+                      <div className="bg-[#FFF8E7] border border-[#F4C430]/20 rounded-xl p-4 mb-4">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-[#7A5200] font-semibold">
-                            Raised: NPR {event.raised.toLocaleString()} of NPR{" "}
-                            {event.goal.toLocaleString()}
+                          <span className="text-[#7A5200] text-sm font-semibold">
+                            Raised: NPR {event.raised.toLocaleString()}
                           </span>
-                          <span className="text-[#F4C430] font-bold">
+                          <span className="text-[#F4C430] font-bold text-sm">
                             {Math.round((event.raised / event.goal) * 100)}%
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
                           <div
-                            className="bg-gradient-to-r from-[#F4C430] to-[#FF8C00] h-3 rounded-full transition-all duration-500"
+                            className="bg-gradient-to-r from-[#F4C430] to-[#FF8C00] h-2.5 rounded-full transition-all duration-500"
                             style={{
-                              width: `${Math.min((event.raised / event.goal) * 100, 100)}%`,
+                              width: `${Math.max(Math.min((event.raised / event.goal) * 100, 100), 2)}%`,
                             }}
                           />
                         </div>
-                        <div className="mt-3 flex gap-3">
+                        <p className="text-xs text-[#7A5200] mt-1">
+                          Goal: NPR {event.goal.toLocaleString()}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-[#7A5200]">
+                          {event.sponsorTypes.length} sponsorship types available
+                        </span>
+                        <span className="flex items-center gap-1 text-[#F4C430] font-semibold text-sm group-hover:text-[#FF8C00] transition-colors">
+                          View Opportunities
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              /* Expanded Event View with Sponsor Types */
+              (() => {
+                const event = EVENTS.find((e) => e.id === selectedEvent)!
+                return (
+                  <div className="space-y-6">
+                    {/* Back button + Event header */}
+                    <div className="bg-white rounded-3xl overflow-hidden shadow-card border border-[#F4C430]/20">
+                      <div className="bg-gradient-to-r from-[#F4C430] to-[#FF8C00] p-6 md:p-8">
+                        <button
+                          onClick={() => setSelectedEvent(null)}
+                          className="text-white/80 hover:text-white text-sm font-medium mb-3 flex items-center gap-1 transition-colors"
+                        >
+                          &larr; Back to Events
+                        </button>
+                        <h3 className="font-serif text-3xl md:text-4xl font-bold text-white">
+                          {event.name}
+                        </h3>
+                        <p className="text-white/90 font-medium mt-1 text-lg">{event.tagline}</p>
+                      </div>
+
+                      <div className="p-6 md:p-8">
+                        <p className="text-[#7A5200] mb-6">{event.description}</p>
+
+                        {/* Funding + Donate */}
+                        <div className="bg-[#FFF8E7] border border-[#F4C430]/20 rounded-xl p-4 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="text-[#7A5200] text-sm font-semibold">
+                                Raised: NPR {event.raised.toLocaleString()} of NPR{" "}
+                                {event.goal.toLocaleString()}
+                              </span>
+                              <span className="text-[#F4C430] font-bold text-sm">
+                                {Math.round((event.raised / event.goal) * 100)}%
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2.5">
+                              <div
+                                className="bg-gradient-to-r from-[#F4C430] to-[#FF8C00] h-2.5 rounded-full"
+                                style={{
+                                  width: `${Math.max(Math.min((event.raised / event.goal) * 100, 100), 2)}%`,
+                                }}
+                              />
+                            </div>
+                          </div>
                           <Button
                             onClick={() =>
                               setDonationForm({ open: true, title: event.name })
                             }
-                            className="bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] border-0"
+                            className="bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] border-0 flex-shrink-0"
                           >
                             <Heart className="w-4 h-4 mr-2" />
                             Donate Now
                           </Button>
                         </div>
-                      </div>
 
-                      {/* Sponsor Types Grid */}
-                      <h4 className="font-serif text-xl font-bold text-[#333333] mb-4">
-                        Sponsorship Opportunities
-                      </h4>
-                      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {event.sponsorTypes.map((sponsor) => (
-                          <button
-                            key={sponsor.type}
-                            onClick={() =>
-                              setSponsorForm({
-                                open: true,
-                                eventName: event.name,
-                                sponsorType: sponsor.type,
-                              })
-                            }
-                            className="group text-left p-5 rounded-2xl bg-[#FFF8E7] border border-[#F4C430]/20 hover:border-[#F4C430] hover:shadow-lg transition-all"
-                          >
-                            <div
-                              className={`w-12 h-12 rounded-xl bg-gradient-to-r ${sponsor.color} flex items-center justify-center mb-3 group-hover:shadow-glow transition-shadow`}
+                        {/* Sponsor Types */}
+                        <h4 className="font-serif text-2xl font-bold text-[#333333] mb-6">
+                          Sponsorship Opportunities
+                        </h4>
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                          {event.sponsorTypes.map((sponsor) => (
+                            <button
+                              key={sponsor.type}
+                              onClick={() =>
+                                setSponsorForm({
+                                  open: true,
+                                  eventName: event.name,
+                                  sponsorType: sponsor.type,
+                                })
+                              }
+                              className="group text-left rounded-2xl bg-[#FFF8E7] border-2 border-[#F4C430]/15 hover:border-[#F4C430] hover:shadow-lg transition-all duration-200 overflow-hidden"
                             >
-                              <sponsor.icon className="w-6 h-6 text-white" />
-                            </div>
-                            <h5 className="font-semibold text-[#333333] mb-1">
-                              {sponsor.type}
-                            </h5>
-                            <p className="text-sm text-[#7A5200]">{sponsor.description}</p>
-                            <span className="inline-block mt-3 text-sm font-semibold text-[#F4C430] group-hover:text-[#FF8C00] transition-colors">
-                              Apply Now &rarr;
-                            </span>
-                          </button>
-                        ))}
+                              <div
+                                className={`h-2 bg-gradient-to-r ${sponsor.color}`}
+                              />
+                              <div className="p-5">
+                                <div className="flex items-center gap-3 mb-3">
+                                  <div
+                                    className={`w-11 h-11 rounded-xl bg-gradient-to-r ${sponsor.color} flex items-center justify-center group-hover:shadow-glow transition-shadow flex-shrink-0`}
+                                  >
+                                    <sponsor.icon className="w-5 h-5 text-white" />
+                                  </div>
+                                  <h5 className="font-bold text-[#333333] text-lg">
+                                    {sponsor.type}
+                                  </h5>
+                                </div>
+                                <p className="text-sm text-[#7A5200] mb-3 leading-relaxed">
+                                  {sponsor.description}
+                                </p>
+                                <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#F4C430] group-hover:text-[#FF8C00] transition-colors">
+                                  Apply Now
+                                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                  </div>
+                )
+              })()
+            )}
           </section>
 
           {/* ── General Sponsor Membership Section ─────────────────────────── */}
@@ -915,39 +934,50 @@ const SponsorPage = () => {
                 <div
                   key={idx}
                   className={`relative group rounded-3xl overflow-hidden transition-all duration-300 ${
-                    tier.featured ? "shadow-2xl shadow-[#F4C430]/40 ring-2 ring-[#F4C430]" : "shadow-card"
+                    tier.featured
+                      ? "shadow-2xl shadow-[#F4C430]/40 ring-2 ring-[#F4C430]"
+                      : "shadow-card"
                   } hover:shadow-glow bg-white`}
                 >
-                  <div className={`h-24 bg-gradient-to-r ${tier.color} p-6 flex items-center gap-4`}>
-                    <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
-                      <tier.icon className="w-7 h-7 text-white" />
+                  <div
+                    className={`h-20 bg-gradient-to-r ${tier.color} px-6 flex items-center gap-4`}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                      <tier.icon className="w-6 h-6 text-white" />
                     </div>
-                    <div>
-                      <h3 className="font-serif text-xl font-bold text-white">{tier.name}</h3>
-                      <p className="text-white/80 text-sm">{tier.duration}</p>
+                    <div className="min-w-0">
+                      <h3 className="font-serif text-lg font-bold text-white truncate">
+                        {tier.name}
+                      </h3>
+                      <p className="text-white/80 text-xs">{tier.duration}</p>
                     </div>
                     {tier.featured && (
-                      <div className="absolute top-4 right-4 px-3 py-1 bg-white text-[#F4C430] text-xs font-semibold rounded-full">
+                      <div className="absolute top-3 right-4 px-3 py-1 bg-white text-[#F4C430] text-xs font-semibold rounded-full">
                         Most Popular
                       </div>
                     )}
                   </div>
 
                   <div className="p-6">
-                    <div className="flex gap-4 mb-4">
-                      <div className="bg-[#FFF8E7] rounded-xl px-4 py-2 border border-[#F4C430]/20">
-                        <p className="text-xs text-[#7A5200]">INR</p>
-                        <p className="font-bold text-[#333333]">{tier.priceINR}</p>
-                      </div>
-                      <div className="bg-[#FFF8E7] rounded-xl px-4 py-2 border border-[#F4C430]/20">
-                        <p className="text-xs text-[#7A5200]">NPR</p>
-                        <p className="font-bold text-[#333333]">{tier.priceNPR}</p>
-                      </div>
+                    {/* Price on same line */}
+                    <div className="flex items-center gap-3 mb-5 flex-wrap">
+                      <span className="inline-flex items-center gap-1.5 bg-[#FFF8E7] rounded-lg px-3 py-1.5 border border-[#F4C430]/20">
+                        <span className="text-xs text-[#7A5200] font-medium">INR</span>
+                        <span className="font-bold text-[#333333]">{tier.priceINR}</span>
+                      </span>
+                      <span className="text-[#7A5200] text-sm">/</span>
+                      <span className="inline-flex items-center gap-1.5 bg-[#FFF8E7] rounded-lg px-3 py-1.5 border border-[#F4C430]/20">
+                        <span className="text-xs text-[#7A5200] font-medium">NPR</span>
+                        <span className="font-bold text-[#333333]">{tier.priceNPR}</span>
+                      </span>
                     </div>
 
                     <ul className="space-y-2 mb-6">
                       {tier.features.map((feature, fidx) => (
-                        <li key={fidx} className="flex items-start gap-2 text-[#7A5200] text-sm">
+                        <li
+                          key={fidx}
+                          className="flex items-start gap-2 text-[#7A5200] text-sm"
+                        >
                           <Heart className="w-4 h-4 text-[#F4C430] flex-shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
