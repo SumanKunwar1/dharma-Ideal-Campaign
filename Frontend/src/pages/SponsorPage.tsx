@@ -35,7 +35,7 @@ import emailjs from "@emailjs/browser"
 
 // ── EmailJS Credentials ────────────────────────────────────────────────────────
 const EMAILJS_SERVICE_ID = "service_j5pdf6r"
-const EMAILJS_TEMPLATE_ID = "template_e7jyvh9"
+const EMAILJS_TEMPLATE_ID = "template_jwarnnq"
 const EMAILJS_PUBLIC_KEY = "BHi9kLrnCu3kzGgyW"
 
 // ── Data ──────────────────────────────────────────────────────────────────────
