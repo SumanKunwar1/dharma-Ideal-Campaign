@@ -45,7 +45,7 @@ const SponsorVideosSection = () => {
   const [activeVideo, setActiveVideo] = useState<SponsorVideo | null>(null)
 
   return (
-    <section className="py-24 bg-[#FFF8E7] relative overflow-hidden">
+    <section id="sponsor-videos" className="py-24 bg-[#FFF8E7] relative overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
