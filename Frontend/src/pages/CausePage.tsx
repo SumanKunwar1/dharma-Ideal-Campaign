@@ -2,6 +2,8 @@
 
 import { Heart, X, Copy, Check, Upload } from "lucide-react"
 import { useState } from "react"
+import PremiumHeader from "@/components/layout/PremiumHeader"
+import Footer from "@/components/layout/Footer"
 
 interface Cause {
   id: number
@@ -19,6 +21,24 @@ const CausesPage = () => {
   const [causes, setCauses] = useState<Cause[]>([
     {
       id: 1,
+      title: "Weekly 2 Day Free Retreat Program",
+      description: "From May 31st 2026 – May 14th 2027. A year-long weekly retreat fostering mindfulness, meditation, and spiritual growth for all.",
+      image: "/api/placeholder/400/300",
+      raised: 0,
+      goal: 50000,
+      category: "Retreat",
+    },
+    {
+      id: 2,
+      title: "3rd 17 Day Intensive Ngyungne Retreat",
+      description: "From Dec 8–24, 2026. A sacred 17-day intensive fasting and purification retreat bringing together practitioners worldwide.",
+      image: "/api/placeholder/400/300",
+      raised: 0,
+      goal: 40000,
+      category: "Retreat",
+    },
+    {
+      id: 3,
       title: "Peace Campaign Tour",
       description: "A global peace tour fostering understanding and harmony across regions worldwide.",
       image: "/api/placeholder/400/300",
@@ -27,7 +47,7 @@ const CausesPage = () => {
       category: "Peace",
     },
     {
-      id: 2,
+      id: 4,
       title: "International Ngyungne Event",
       description: "A traditional fasting and purification event drawing participants globally.",
       image: "/api/placeholder/400/300",
@@ -36,7 +56,7 @@ const CausesPage = () => {
       category: "Spiritual",
     },
     {
-      id: 3,
+      id: 5,
       title: "Ngyungne Building Development",
       description: "Development and land purchase for international Ngyungne center.",
       image: "/api/placeholder/400/300",
@@ -45,7 +65,7 @@ const CausesPage = () => {
       category: "Infrastructure",
     },
     {
-      id: 4,
+      id: 6,
       title: "Triyana Bodhi Meditation Center",
       description: "Establishing a dedicated space for meditation and spiritual practice worldwide.",
       image: "/api/placeholder/400/300",
@@ -54,7 +74,7 @@ const CausesPage = () => {
       category: "Meditation",
     },
     {
-      id: 5,
+      id: 7,
       title: "Annual Preliminary Retreat Campaign",
       description: "A month-long immersive retreat introducing mindfulness and spiritual practice.",
       image: "/api/placeholder/400/300",
@@ -63,7 +83,7 @@ const CausesPage = () => {
       category: "Education",
     },
     {
-      id: 6,
+      id: 8,
       title: "Community Outreach Program",
       description: "Compassionate outreach bringing dharma teachings to underserved communities.",
       image: "/api/placeholder/400/300",
@@ -77,7 +97,7 @@ const CausesPage = () => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null)
   const [customAmount, setCustomAmount] = useState("")
   const [loading, setLoading] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [copiedField, setCopiedField] = useState("")
   const [donorName, setDonorName] = useState("")
   const [donorEmail, setDonorEmail] = useState("")
   const [donorPhone, setDonorPhone] = useState("")
@@ -110,10 +130,10 @@ const CausesPage = () => {
     setScreenshotPreview("")
   }
 
-  const handleCopy = (text: string) => {
+  const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    setCopiedField(label)
+    setTimeout(() => setCopiedField(""), 2000)
   }
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +171,6 @@ const CausesPage = () => {
     setLoading(true)
 
     setTimeout(() => {
-      // Update the raised amount for the selected cause
       setCauses(prevCauses =>
         prevCauses.map(cause =>
           cause.id === selectedCause.id
@@ -161,14 +180,25 @@ const CausesPage = () => {
       )
 
       alert(`Thank you ${donorName}! Your donation of $${finalAmount} has been submitted for verification. We'll confirm once the payment is verified.`)
-      
+
       setLoading(false)
       closeDonateModal()
     }, 1500)
   }
 
+  const CopyBtn = ({ text, label }: { text: string; label: string }) => (
+    <button
+      type="button"
+      onClick={() => handleCopy(text, label)}
+      className="text-yellow-500 hover:text-yellow-600 transition-colors flex-shrink-0"
+    >
+      {copiedField === label ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+    </button>
+  )
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+      <PremiumHeader />
       <div className="pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -296,56 +326,47 @@ const CausesPage = () => {
                 {/* Payment Details Section */}
                 <div className="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-yellow-400/30 rounded-2xl p-6">
                   <h3 className="font-serif text-xl font-bold text-gray-800 mb-4">Payment Information</h3>
-                  
+
                   <div className="grid md:grid-cols-2 gap-6">
-                    {/* Left Side - Account Information */}
-                    <div className="space-y-4">
-                      <h4 className="font-semibold text-gray-800 mb-3">Bank Account Details</h4>
-                      
+                    {/* Nepal Bank */}
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-800 mb-2">Nepal — Prabhu Bank, Boudha</h4>
                       {[
-                        { label: "Account Holder", value: "Charity Foundation Inc." },
-                        { label: "Account Number", value: "1234567890" },
-                        { label: "Bank Name", value: "National Bank" },
-                        { label: "SWIFT Code", value: "NBKIUSSXXX" },
+                        { label: "Account Name", value: "B.T.M.C. Foundation" },
+                        { label: "Account No.", value: "0570155982700014" },
+                        { label: "Bank", value: "Prabhu Bank (Boudha Branch)" },
                       ].map((detail) => (
                         <div key={detail.label}>
                           <p className="text-xs text-amber-800 mb-1 font-medium">{detail.label}</p>
                           <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-yellow-400/30">
                             <p className="font-semibold text-gray-800 text-sm">{detail.value}</p>
-                            <button
-                              type="button"
-                              onClick={() => handleCopy(detail.value)}
-                              className="text-yellow-500 hover:text-yellow-600 transition-colors"
-                            >
-                              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            </button>
+                            <CopyBtn text={detail.value} label={`np-${detail.label}`} />
                           </div>
                         </div>
                       ))}
                     </div>
 
-                    {/* Right Side - QR Code */}
-                    <div className="flex flex-col items-center justify-center bg-white rounded-xl p-6 border border-yellow-400/30">
-                      <p className="text-sm text-amber-800 mb-3 font-semibold">Scan QR Code to Pay</p>
-                      <div className="bg-gray-50 p-4 rounded-lg border-2 border-yellow-400/20">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-48 h-48">
-                          <rect width="200" height="200" fill="white" />
-                          <rect x="20" y="20" width="40" height="40" fill="black" />
-                          <rect x="30" y="30" width="20" height="20" fill="white" />
-                          <rect x="140" y="20" width="40" height="40" fill="black" />
-                          <rect x="150" y="30" width="20" height="20" fill="white" />
-                          <rect x="20" y="140" width="40" height="40" fill="black" />
-                          <rect x="30" y="150" width="20" height="20" fill="white" />
-                          <circle cx="100" cy="100" r="35" fill="black" />
-                          <rect x="80" y="60" width="10" height="10" fill="black" />
-                          <rect x="110" y="60" width="10" height="10" fill="black" />
-                          <rect x="80" y="130" width="10" height="10" fill="black" />
-                          <rect x="110" y="130" width="10" height="10" fill="black" />
-                        </svg>
-                      </div>
-                      <p className="text-xs text-amber-700 mt-3 text-center">
-                        Use your mobile banking app to scan
-                      </p>
+                    {/* India Bank */}
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-800 mb-2">India — Bank of India, Salugara</h4>
+                      {[
+                        { label: "Account Name", value: "BTMC Foundation" },
+                        { label: "Account No.", value: "50782011000314" },
+                        { label: "IFSC Code", value: "BKID0005078" },
+                        { label: "Branch", value: "Salugara, Siliguri" },
+                        {
+                          label: "Address",
+                          value: "H No.737, Gr. Fl., BSF Road, Ward No.42, PO Salugara, Jalpaiguri, West Bengal – 734008",
+                        },
+                      ].map((detail) => (
+                        <div key={detail.label}>
+                          <p className="text-xs text-amber-800 mb-1 font-medium">{detail.label}</p>
+                          <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-yellow-400/30">
+                            <p className="font-semibold text-gray-800 text-sm">{detail.value}</p>
+                            <CopyBtn text={detail.value} label={`in-${detail.label}`} />
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -353,7 +374,7 @@ const CausesPage = () => {
                 {/* Donor Information Form */}
                 <div className="bg-white border-2 border-yellow-400/30 rounded-2xl p-6 space-y-4">
                   <h3 className="font-serif text-xl font-bold text-gray-800 mb-4">Your Information</h3>
-                  
+
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="donor-name" className="text-gray-800 font-medium mb-2 block text-sm">
@@ -418,7 +439,7 @@ const CausesPage = () => {
                               alt="Payment screenshot preview"
                               className="max-h-48 mx-auto rounded-lg"
                             />
-                            <p className="text-sm text-green-600 font-medium">✓ Screenshot uploaded</p>
+                            <p className="text-sm text-green-600 font-medium">Screenshot uploaded</p>
                             <button
                               type="button"
                               onClick={(e) => {
@@ -479,6 +500,8 @@ const CausesPage = () => {
           </div>
         </div>
       )}
+
+      <Footer />
     </main>
   )
 }

@@ -1,26 +1,30 @@
 import { Users, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const teamRoles = [
+const teamMembers = [
   {
+    name: "Khenpo Sonam Gyurme Tamang",
     role: "Founder & CEO",
-    description: "Visionary leader guiding our mission with wisdom and compassion.",
-    initial: "FC",
+    description:
+      "Visionary leader guiding our mission with wisdom, compassion, and unwavering dedication to the Dharma.",
+    photo:
+      "https://res.cloudinary.com/dihev9qxc/image/upload/q_auto/f_auto/v1776225248/WhatsApp_Image_2026-04-14_at_16.44.17_ccts41.jpg",
   },
   {
-    role: "Chief Executives",
-    description: "Strategic minds driving operational excellence and growth.",
-    initial: "CE",
+    name: "H.E. Syalpa Tenzin Rinpoche",
+    role: "Peace Ambassador Nepal",
+    description:
+      "A revered spiritual figure dedicated to promoting peace and harmony across Nepal and beyond.",
+    photo:
+      "https://res.cloudinary.com/dihev9qxc/image/upload/q_auto/f_auto/v1776225248/WhatsApp_Image_2026-04-14_at_16.47.52_jstdoj.jpg",
   },
   {
-    role: "Advisors",
-    description: "Experienced mentors providing guidance and spiritual insight.",
-    initial: "AD",
-  },
-  {
-    role: "Community Coordinators",
-    description: "Dedicated individuals connecting with communities worldwide.",
-    initial: "CC",
+    name: "HRH Princess Asharaje Gaekwad",
+    role: "Peace Ambassador India",
+    description:
+      "A distinguished ambassador championing peace, spiritual growth, and community welfare in India.",
+    photo:
+      "https://res.cloudinary.com/dihev9qxc/image/upload/q_auto/f_auto/v1776225250/WhatsApp_Image_2026-04-14_at_18.31.39_y91mnr.jpg",
   },
 ];
 
@@ -29,10 +33,13 @@ const TeamSection = () => {
     <section id="team" className="py-24 bg-card relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--gold)) 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--gold)) 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -46,28 +53,31 @@ const TeamSection = () => {
             <span className="text-gradient-gold">Compassionate Hearts</span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            Our dedicated team of leaders and volunteers work tirelessly to bring 
-            positive change to communities around the world.
+            Our dedicated leaders work tirelessly to bring positive change to
+            communities around the world.
           </p>
         </div>
 
-        {/* Team Roles Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {teamRoles.map((member, index) => (
+        {/* Team Members Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {teamMembers.map((member, index) => (
             <div
               key={index}
               className="group text-center p-8 rounded-3xl bg-background border border-border hover:border-gold/30 transition-all duration-300 hover:shadow-card hover:-translate-y-1"
             >
-              {/* Avatar Placeholder */}
-              <div className="w-24 h-24 mx-auto mb-6 rounded-full gradient-gold flex items-center justify-center shadow-gold group-hover:shadow-glow transition-shadow">
-                <span className="font-serif text-2xl font-bold text-primary-foreground">
-                  {member.initial}
-                </span>
+              {/* Photo */}
+              <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-gold/20 group-hover:border-gold/50 transition-colors shadow-lg group-hover:shadow-glow">
+                <img
+                  src={member.photo}
+                  alt={member.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              
-              <h3 className="font-serif text-lg font-bold text-foreground mb-2 group-hover:text-gold transition-colors">
-                {member.role}
+
+              <h3 className="font-serif text-xl font-bold text-foreground mb-1 group-hover:text-gold transition-colors">
+                {member.name}
               </h3>
+              <p className="text-gold font-semibold text-sm mb-3">{member.role}</p>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 {member.description}
               </p>
@@ -86,14 +96,15 @@ const TeamSection = () => {
               <div className="w-20 h-20 rounded-2xl gradient-saffron flex items-center justify-center flex-shrink-0">
                 <Users className="w-10 h-10 text-white" />
               </div>
-              
+
               <div className="flex-1 text-center md:text-left">
                 <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-3">
                   Become a Volunteer
                 </h3>
                 <p className="text-muted-foreground max-w-xl">
-                  Join our global network of volunteers and contribute to positive change. 
-                  Your time and skills can make a real difference in someone's life.
+                  Join our global network of volunteers and contribute to positive
+                  change. Your time and skills can make a real difference in
+                  someone's life.
                 </p>
               </div>
 
