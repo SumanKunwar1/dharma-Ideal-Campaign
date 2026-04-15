@@ -30,7 +30,7 @@ interface CauseItem {
 }
 
 // ── Causes Data ────────────────────────────────────────────────────────────────
-const causes: CauseItem[] = [
+const INITIAL_CAUSES: CauseItem[] = [
   {
     icon: Sparkles,
     title: "Weekly 2 Day Free Retreat Program",
@@ -172,10 +172,12 @@ function CauseDonationDialog({
   open,
   onOpenChange,
   causeTitle,
+  onDonationSuccess,
 }: {
   open: boolean
   onOpenChange: (v: boolean) => void
   causeTitle: string
+  onDonationSuccess?: (amount: number) => void
 }) {
   const AMOUNTS = [50, 100, 250, 500, 1000]
 
@@ -227,6 +229,9 @@ function CauseDonationDialog({
         EMAILJS_PUBLIC_KEY
       )
 
+      if (finalAmount > 0 && onDonationSuccess) {
+        onDonationSuccess(finalAmount)
+      }
       setSubmitted(true)
     } catch (error) {
       console.error("EmailJS error:", error)
@@ -420,10 +425,21 @@ function CauseDonationDialog({
 
 // ── Section ────────────────────────────────────────────────────────────────────
 const CausesSection = () => {
+  const [causesData, setCausesData] = useState<CauseItem[]>(INITIAL_CAUSES)
   const [donateDialog, setDonateDialog] = useState<{ open: boolean; title: string }>({
     open: false,
     title: "",
   })
+
+  const handleDonationSuccess = (amount: number) => {
+    setCausesData((prev) =>
+      prev.map((c) =>
+        c.title === donateDialog.title
+          ? { ...c, raised: c.raised + amount, donors: c.donors + 1 }
+          : c
+      )
+    )
+  }
 
   return (
     <section className="py-24 bg-background">
@@ -443,7 +459,7 @@ const CausesSection = () => {
 
         {/* Grid */}
         <div className="grid md:grid-cols-2 gap-8">
-          {causes.map((cause, index) => {
+          {causesData.map((cause, index) => {
             const progress = cause.goal > 0 ? (cause.raised / cause.goal) * 100 : 0
             return (
               <div
@@ -503,6 +519,7 @@ const CausesSection = () => {
         open={donateDialog.open}
         onOpenChange={(v) => setDonateDialog({ ...donateDialog, open: v })}
         causeTitle={donateDialog.title}
+        onDonationSuccess={handleDonationSuccess}
       />
     </section>
   )
