@@ -31,6 +31,13 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 
+import emailjs from "@emailjs/browser"
+
+// ── EmailJS Credentials ────────────────────────────────────────────────────────
+const EMAILJS_SERVICE_ID = "service_j5pdf6r"
+const EMAILJS_TEMPLATE_ID = "template_e7jyvh9"
+const EMAILJS_PUBLIC_KEY = "BHi9kLrnCu3kzGgyW"
+
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const EVENTS = [
@@ -288,16 +295,50 @@ function DonationFormDialog({
   })
   const [screenshot, setScreenshot] = useState<File | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setSending(true)
+    setSendError("")
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          form_type: "Donation",
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          amount: formData.amount,
+          message: formData.message || "N/A",
+          cause: title,
+          organization: "N/A",
+          address: "N/A",
+          tier_name: "N/A",
+          price_inr: "N/A",
+          price_npr: "N/A",
+          sponsor_type: "N/A",
+          event_name: "N/A",
+          time: new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" }),
+        },
+        EMAILJS_PUBLIC_KEY
+      )
+      setSubmitted(true)
+    } catch (error) {
+      console.error("EmailJS error:", error)
+      setSendError("Something went wrong. Please try again.")
+    } finally {
+      setSending(false)
+    }
   }
 
   const handleReset = () => {
     setFormData({ name: "", email: "", phone: "", amount: "", message: "" })
     setScreenshot(null)
     setSubmitted(false)
+    setSendError("")
     onOpenChange(false)
   }
 
@@ -390,11 +431,15 @@ function DonationFormDialog({
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] py-6 text-lg"
+              disabled={sending}
+              className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] py-6 text-lg disabled:from-gray-300 disabled:to-gray-400"
             >
               <Heart className="w-5 h-5 mr-2" />
-              Submit Donation
+              {sending ? "Sending..." : "Submit Donation"}
             </Button>
+            {sendError && (
+              <p className="text-sm text-red-600 text-center">{sendError}</p>
+            )}
           </form>
         ) : (
           <div className="text-center py-8">
@@ -439,15 +484,49 @@ function SponsorFormDialog({
     message: "",
   })
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setSending(true)
+    setSendError("")
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          form_type: "Event Sponsorship Application",
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          organization: formData.organization || "N/A",
+          address: formData.address || "N/A",
+          message: formData.message || "N/A",
+          event_name: eventName,
+          sponsor_type: sponsorType,
+          cause: "N/A",
+          amount: "N/A",
+          tier_name: "N/A",
+          price_inr: "N/A",
+          price_npr: "N/A",
+          time: new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" }),
+        },
+        EMAILJS_PUBLIC_KEY
+      )
+      setSubmitted(true)
+    } catch (error) {
+      console.error("EmailJS error:", error)
+      setSendError("Something went wrong. Please try again.")
+    } finally {
+      setSending(false)
+    }
   }
 
   const handleReset = () => {
     setFormData({ name: "", organization: "", email: "", phone: "", address: "", message: "" })
     setSubmitted(false)
+    setSendError("")
     onOpenChange(false)
   }
 
@@ -525,10 +604,14 @@ function SponsorFormDialog({
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] py-6 text-lg"
+              disabled={sending}
+              className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] py-6 text-lg disabled:from-gray-300 disabled:to-gray-400"
             >
-              Submit Sponsorship Application
+              {sending ? "Sending..." : "Submit Sponsorship Application"}
             </Button>
+            {sendError && (
+              <p className="text-sm text-red-600 text-center">{sendError}</p>
+            )}
           </form>
         ) : (
           <div className="text-center py-8">
@@ -576,16 +659,50 @@ function MembershipFormDialog({
   })
   const [screenshot, setScreenshot] = useState<File | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setSending(true)
+    setSendError("")
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          form_type: "Dharma Ideal Sponsor Membership",
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address || "N/A",
+          message: formData.message || "N/A",
+          tier_name: tierName,
+          price_inr: priceINR,
+          price_npr: priceNPR,
+          cause: "N/A",
+          amount: "N/A",
+          organization: "N/A",
+          sponsor_type: "N/A",
+          event_name: "N/A",
+          time: new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" }),
+        },
+        EMAILJS_PUBLIC_KEY
+      )
+      setSubmitted(true)
+    } catch (error) {
+      console.error("EmailJS error:", error)
+      setSendError("Something went wrong. Please try again.")
+    } finally {
+      setSending(false)
+    }
   }
 
   const handleReset = () => {
     setFormData({ name: "", email: "", phone: "", address: "", message: "" })
     setScreenshot(null)
     setSubmitted(false)
+    setSendError("")
     onOpenChange(false)
   }
 
@@ -683,10 +800,14 @@ function MembershipFormDialog({
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] py-6 text-lg"
+              disabled={sending}
+              className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white hover:from-[#F4C430] hover:to-[#DAA520] py-6 text-lg disabled:from-gray-300 disabled:to-gray-400"
             >
-              Submit Membership Application
+              {sending ? "Sending..." : "Submit Membership Application"}
             </Button>
+            {sendError && (
+              <p className="text-sm text-red-600 text-center">{sendError}</p>
+            )}
           </form>
         ) : (
           <div className="text-center py-8">
