@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { Menu, X, Heart, ChevronDown, Copy, Check, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -244,15 +244,16 @@ const PremiumHeader = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
-    { name: "Programs", path: "/programs" },
     { name: "Events", path: "/events" },
-    { name: "Become Sponsor", path: "/sponsor" },
+    { name: "Sponsors", path: "/sponsor" },
+    { name: "Projects", path: "/programs" },
   ]
 
   const dropdownLinks = [
     { name: "Our Masters", path: "/masters" },
     { name: "Popular Causes", path: "/causes" },
     { name: "Membership", path: "/membership" },
+    { name: "Contact Us", path: "/contact" },
   ]
 
   const secondaryLinks = [
@@ -261,6 +262,8 @@ const PremiumHeader = () => {
     { name: "Ngyungne Retreat Sponsors", path: "/sponsor#ngyungne-retreat" },
     { name: "Volunteer", path: "/volunteer" },
   ]
+
+  const becomeDharmaLink = { name: "Become Dharma Ideal", path: "/membership" }
 
   const isActive = (path: string) => {
     const basePath = path.split("#")[0]
@@ -333,7 +336,15 @@ const PremiumHeader = () => {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
+              <Link to={becomeDharmaLink.path}>
+                <Button
+                  variant="outline"
+                  className="border-[#F4C430] text-[#B8860B] hover:bg-[#F4C430]/10"
+                >
+                  {becomeDharmaLink.name}
+                </Button>
+              </Link>
               <Button
                 onClick={() => setIsDonateOpen(true)}
                 className="bg-gradient-to-r from-[#FF8C00] to-[#F4C430] hover:from-[#F4C430] hover:to-[#DAA520] text-white border-0"
@@ -405,6 +416,14 @@ const PremiumHeader = () => {
                   </div>
                 )}
               </nav>
+              <Link to={becomeDharmaLink.path} onClick={() => setIsMenuOpen(false)}>
+                <Button
+                  variant="outline"
+                  className="w-full border-[#F4C430] text-[#B8860B] hover:bg-[#F4C430]/10 mb-3"
+                >
+                  {becomeDharmaLink.name}
+                </Button>
+              </Link>
               <Button
                 onClick={() => {
                   setIsMenuOpen(false)

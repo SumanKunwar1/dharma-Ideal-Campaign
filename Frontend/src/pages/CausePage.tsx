@@ -55,42 +55,6 @@ const CausesPage = () => {
       goal: 517894,
       category: "Spiritual",
     },
-    {
-      id: 5,
-      title: "Ngyungne Building Development",
-      description: "Development and land purchase for international Ngyungne center.",
-      image: "/api/placeholder/400/300",
-      raised: 3000,
-      goal: 406916,
-      category: "Infrastructure",
-    },
-    {
-      id: 6,
-      title: "Triyana Bodhi Meditation Center",
-      description: "Establishing a dedicated space for meditation and spiritual practice worldwide.",
-      image: "/api/placeholder/400/300",
-      raised: 10000,
-      goal: 221955,
-      category: "Meditation",
-    },
-    {
-      id: 7,
-      title: "Annual Preliminary Retreat Campaign",
-      description: "A month-long immersive retreat introducing mindfulness and spiritual practice.",
-      image: "/api/placeholder/400/300",
-      raised: 0,
-      goal: 18499,
-      category: "Education",
-    },
-    {
-      id: 8,
-      title: "Community Outreach Program",
-      description: "Compassionate outreach bringing dharma teachings to underserved communities.",
-      image: "/api/placeholder/400/300",
-      raised: 7500,
-      goal: 150000,
-      category: "Community",
-    },
   ])
 
   const [selectedCause, setSelectedCause] = useState<Cause | null>(null)

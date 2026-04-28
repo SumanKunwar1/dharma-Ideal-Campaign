@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import emailjs from "@emailjs/browser"
-import { GraduationCap, HeartPulse, Home, BookOpen, Heart, Sparkles, Copy, Check, Upload } from "lucide-react"
+import { GraduationCap, Heart, Sparkles, Globe, Copy, Check, Upload, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -32,58 +32,40 @@ interface CauseItem {
 // ── Causes Data ────────────────────────────────────────────────────────────────
 const INITIAL_CAUSES: CauseItem[] = [
   {
-    icon: Sparkles,
-    title: "Weekly 2 Day Free Retreat Program",
+    icon: GraduationCap,
+    title: "Free Education Initiative",
     description:
-      "From May 31st 2026 – May 14th 2027. A year-long weekly retreat fostering mindfulness, meditation, and spiritual growth for all.",
+      "Sponsoring students at RDCCK, RDSCL, and the upcoming International Noble College — empowering young minds through holistic, value-based education at no cost.",
+    raised: 0,
+    goal: 60000,
+    donors: 0,
+  },
+  {
+    icon: Sparkles,
+    title: "Weekly 2-Day Free Retreat",
+    description:
+      "Every Saturday & Sunday from May 31, 2026 – May 14, 2027. A year-long sanctuary for mindfulness, meditation, and Buddhist practice — open to all, free of charge.",
     raised: 0,
     goal: 50000,
     donors: 0,
   },
   {
-    icon: HeartPulse,
-    title: "3rd 17 Day Intensive Ngyungne Retreat",
+    icon: Calendar,
+    title: "17-Day 3rd International Ngyungne Retreat",
     description:
-      "From Dec 8–24, 2026. A sacred 17-day intensive fasting and purification retreat bringing together practitioners worldwide.",
+      "From December 8–24, 2026. A sacred intensive fasting and purification retreat hosting 700 practitioners daily from across the globe.",
     raised: 0,
-    goal: 40000,
+    goal: 80000,
     donors: 0,
   },
   {
-    icon: GraduationCap,
-    title: "Education for Underprivileged",
+    icon: Globe,
+    title: "World Peace Prayers",
     description:
-      "Help provide quality education to children who lack resources and opportunities.",
-    raised: 4500,
-    goal: 10000,
-    donors: 128,
-  },
-  {
-    icon: Home,
-    title: "Elderly Care Facilities",
-    description:
-      "Sponsor elderly care services providing peace, dignity, and spiritual support.",
-    raised: 3800,
-    goal: 8000,
-    donors: 89,
-  },
-  {
-    icon: BookOpen,
-    title: "Spiritual Wisdom Programs",
-    description:
-      "Fund meditation retreats and spiritual guidance sessions for inner peace.",
-    raised: 2100,
-    goal: 5000,
-    donors: 67,
-  },
-  {
-    icon: HeartPulse,
-    title: "Medical Emergency Relief",
-    description:
-      "Support individuals facing life-threatening conditions with critical medical care.",
-    raised: 7200,
-    goal: 15000,
-    donors: 245,
+      "Global prayer gatherings held across Sri Lanka, India, China, and Indonesia — uniting nations through compassion, spiritual harmony, and prayers for world peace.",
+    raised: 0,
+    goal: 30000,
+    donors: 0,
   },
 ]
 

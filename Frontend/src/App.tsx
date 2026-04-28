@@ -20,6 +20,7 @@ import CausesPage from "./pages/CausePage"
 import MembershipPage from "./pages/MembershipPage"
 import NotFound from "./pages/NotFound"
 import ProgramDetails from "./pages/ProgramDetails"
+import ContactPage from "./pages/ContactPage"
 
 const queryClient = new QueryClient()
 
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/masters" element={<MastersPage />} />
             <Route path="/causes" element={<CausesPage />} />
             <Route path="/membership" element={<MembershipPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
