@@ -1,15 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import {
   Heart,
-  Award,
   Crown,
   Star,
   Shield,
-  Gem,
-  Building2,
   Copy,
   Check,
   Upload,
@@ -182,7 +179,7 @@ const EVENTS = [
       "A year-long weekly sanctuary for meditation, mindfulness, and authentic Buddhist practice. ~300 participants per week — 15,600 yearly — across six customized courses for students, professionals, families, and seekers worldwide.",
     raised: 0,
     goal: 500000,
-    image: "https://images.unsplash.com/photo-1607827448387-a67db6201026?w=1200&q=80",
+    image: "https://res.cloudinary.com/dcsgax3ld/image/upload/v1777374515/a-wide-cinematic-digital-painting-in-a-1_suE4TJY5SnWuIlZlAufYOQ_uSABkiHGQquyZ436y5fsaQ_sd_xwl26x.jpg",
     stats: [
       { label: "Weeks", value: "52" },
       { label: "Days/Week", value: "2" },
@@ -200,7 +197,7 @@ const EVENTS = [
       "An internationally recognized spiritual gathering bringing together thousands of practitioners across 17 days of intensive compassion and wisdom practice, peace dialogues, and global spiritual engagement.",
     raised: 0,
     goal: 1000000,
-    image: "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&q=80",
+    image: "https://res.cloudinary.com/dcsgax3ld/image/upload/v1777374805/a-cinematic-wide-angle-photograph-of-a-t_vm-KCpfSRjWpUzbIXQNJKg_v3UPHrVHTn2UfBLxMojWaA_sd_cuvwin.jpg",
     stats: [
       { label: "Days", value: "17" },
       { label: "Daily Reach", value: "700" },
@@ -211,90 +208,6 @@ const EVENTS = [
 ] as const
 
 type EventId = (typeof EVENTS)[number]["id"]
-
-// ── Membership Tiers ─────────────────────────────────────────────────────────
-const MEMBERSHIP_TIERS = [
-  {
-    name: "1 Year Dharma Ideal Sponsor",
-    shortName: "Annual Sponsor",
-    duration: "1-Year Commitment",
-    priceINR: "10,000",
-    priceNPR: "15,999",
-    priceForeign: "$100",
-    icon: Star,
-    color: "from-[#DAA520] to-[#CD853F]",
-    commitment: "Follows the principles of morality, concentration, and wisdom. Upholds the five precepts: abstaining from alcohol, avoiding violence, not stealing, not lying, and refraining from sexual misconduct.",
-    features: [
-      "Official Badge (Pin) & Identity Card",
-      "Digital Certificate of Sponsorship",
-      "Invitations to programs & updates",
-      "Spiritual guidance & teachings",
-      "Meditation & practice training",
-      "Access to teaching videos",
-    ],
-  },
-  {
-    name: "Dharma Ideal Decade Sponsor",
-    shortName: "Decade Sponsor",
-    duration: "10-Year Commitment",
-    priceINR: "1,00,000",
-    priceNPR: "1,59,999",
-    priceForeign: "$1,000",
-    icon: Award,
-    color: "from-[#F4C430] to-[#DAA520]",
-    featured: true,
-    commitment: "A decade-long dedication to the campaign's mission and values, ensuring continuity and significant contributions over an extended period.",
-    features: [
-      "All 1-Year Sponsor benefits",
-      "Appreciation letter from leadership",
-      "Half Gold-Plated Sacred Statue",
-      "Premium recognition in the campaign",
-      "Priority event invitations",
-      "Dedicated spiritual coordinator",
-    ],
-  },
-  {
-    name: "Dharma Ideal Gem Life Sponsor",
-    shortName: "Gem Life Sponsor",
-    duration: "Lifetime Commitment",
-    priceINR: "5,00,000",
-    priceNPR: "7,99,999",
-    priceForeign: "$4,500",
-    icon: Gem,
-    color: "from-[#FF8C00] to-[#F4C430]",
-    commitment: "Lifelong dedication representing an unwavering commitment to the campaign's mission — ensuring a lasting legacy in fostering global peace and harmony.",
-    features: [
-      "All Decade Sponsor benefits",
-      "Special recognition in pujas & ceremonies",
-      "Honor certificate from Masters",
-      "Personal guidance from spiritual masters",
-      "Personal/Family Documentary Production",
-      "Three Gold-Plated Sacred Statues",
-      "Naming opportunities in key programs",
-    ],
-  },
-  {
-    name: "Corporate Premium Life Sponsor",
-    shortName: "Corporate Sponsor",
-    duration: "Lifetime Corporate Partnership",
-    priceINR: "20,99,999",
-    priceNPR: "33,00,000",
-    priceForeign: "$21,999",
-    icon: Building2,
-    color: "from-[#FFD700] to-[#FF8C00]",
-    commitment: "All staff are jointly engaged in holistic spiritual, educational, and wellness programs — reflecting a long-term dedication to the welfare of human civilization.",
-    features: [
-      "All Gem Sponsor benefits",
-      "Special seating in TV reality shows",
-      "Corporate Premium Honor Certificate",
-      "Corporate guidance lifetime",
-      "Executive Brand Story Production",
-      "Corporate badge (premium pin)",
-      "Five gold-plated Personal Deity statues",
-      "Special Lucky Sutra (sacred book)",
-    ],
-  },
-]
 
 // ── Donation Master Plan (per-event support requirements) ────────────────────
 const DONATION_SUPPORT_AREAS = [
@@ -711,91 +624,6 @@ function SponsorFormDialog({ open, onOpenChange, eventName, sponsorType }: { ope
   )
 }
 
-// ── Membership Form ───────────────────────────────────────────────────────────
-function MembershipFormDialog({ open, onOpenChange, tierName, priceINR, priceNPR }: { open: boolean; onOpenChange: (v: boolean) => void; tierName: string; priceINR: string; priceNPR: string }) {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", address: "", message: "" })
-  const [screenshot, setScreenshot] = useState<File | null>(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [sending, setSending] = useState(false)
-  const [sendError, setSendError] = useState("")
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSending(true)
-    setSendError("")
-    try {
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        form_type: "Dharma Ideal Sponsor Membership", name: formData.name, email: formData.email,
-        phone: formData.phone, address: formData.address || "N/A", message: formData.message || "N/A",
-        tier_name: tierName, price_inr: priceINR, price_npr: priceNPR,
-        cause: "N/A", amount: "N/A", organization: "N/A", sponsor_type: "N/A", event_name: "N/A",
-        time: new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" }),
-      }, EMAILJS_PUBLIC_KEY)
-      setSubmitted(true)
-    } catch {
-      setSendError("Something went wrong. Please try again.")
-    } finally {
-      setSending(false)
-    }
-  }
-
-  const handleReset = () => {
-    setFormData({ name: "", email: "", phone: "", address: "", message: "" })
-    setScreenshot(null)
-    setSubmitted(false)
-    setSendError("")
-    onOpenChange(false)
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#FFF8E7]">
-        <DialogHeader>
-          <DialogTitle className="font-serif text-2xl text-[#333333]">Become {tierName}</DialogTitle>
-          <DialogDescription className="text-[#7A5200]">INR {priceINR} / NPR {priceNPR}</DialogDescription>
-        </DialogHeader>
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div><Label className="text-[#333333]">Full Name *</Label><Input required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="border-[#F4C430]/30 focus:border-[#F4C430]" /></div>
-              <div><Label className="text-[#333333]">Email *</Label><Input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="border-[#F4C430]/30 focus:border-[#F4C430]" /></div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div><Label className="text-[#333333]">Phone *</Label><Input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="border-[#F4C430]/30 focus:border-[#F4C430]" /></div>
-              <div><Label className="text-[#333333]">Address</Label><Input value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} className="border-[#F4C430]/30 focus:border-[#F4C430]" /></div>
-            </div>
-            <div><Label className="text-[#333333]">Message (optional)</Label><Textarea value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="border-[#F4C430]/30 focus:border-[#F4C430]" rows={3} /></div>
-            <div className="bg-white rounded-xl p-4 border border-[#F4C430]/20">
-              <p className="text-sm font-semibold text-[#333333] mb-1">Amount to Pay:</p>
-              <p className="text-lg font-bold bg-gradient-to-r from-[#F4C430] to-[#FF8C00] bg-clip-text text-transparent">INR {priceINR} / NPR {priceNPR}</p>
-            </div>
-            <BankDetails />
-            <div>
-              <Label className="text-[#333333] font-semibold">Upload Payment Screenshot *</Label>
-              <div className="mt-2 border-2 border-dashed border-[#F4C430]/40 rounded-xl p-6 text-center hover:border-[#F4C430] transition-colors relative">
-                <Upload className="w-8 h-8 text-[#F4C430] mx-auto mb-2" />
-                <p className="text-sm text-[#7A5200] mb-2">{screenshot ? screenshot.name : "Click to upload or drag and drop"}</p>
-                <input type="file" accept="image/*" required onChange={(e) => setScreenshot(e.target.files?.[0] || null)} className="absolute inset-0 opacity-0 cursor-pointer" />
-              </div>
-            </div>
-            <Button type="submit" disabled={sending} className="w-full bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white py-6 text-lg">
-              {sending ? "Sending..." : "Submit Membership Application"}
-            </Button>
-            {sendError && <p className="text-sm text-red-600 text-center">{sendError}</p>}
-          </form>
-        ) : (
-          <div className="text-center py-8">
-            <div className="text-5xl mb-4">🙏</div>
-            <h3 className="font-serif text-2xl font-bold text-[#333333] mb-2">Application Submitted!</h3>
-            <p className="text-[#7A5200] mb-6">Thank you for becoming a {tierName}! We will verify your payment and activate your membership soon. May your commitment to Dharma bring peace and blessings.</p>
-            <Button onClick={handleReset} className="gradient-gold text-white border-0">Close</Button>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
-  )
-}
-
 // ── Event Sponsorship Block (per event) ──────────────────────────────────────
 function EventSponsorshipBlock({
   event,
@@ -936,7 +764,6 @@ function EventSponsorshipBlock({
 const SponsorPage = () => {
   const [sponsorForm, setSponsorForm] = useState<{ open: boolean; eventName: string; sponsorType: string }>({ open: false, eventName: "", sponsorType: "" })
   const [donationForm, setDonationForm] = useState<{ open: boolean; title: string }>({ open: false, title: "" })
-  const [membershipForm, setMembershipForm] = useState<{ open: boolean; tierName: string; priceINR: string; priceNPR: string }>({ open: false, tierName: "", priceINR: "", priceNPR: "" })
   const [activeEventTab, setActiveEventTab] = useState<EventId>("weekly-retreat")
   const location = useLocation()
 
@@ -1241,76 +1068,45 @@ const SponsorPage = () => {
             </div>
           </section>
 
-          {/* ── MEMBERSHIP TIERS ──────────────────────────────────────────── */}
+          {/* ── DHARMA IDEAL MEMBER CTA ───────────────────────────────────── */}
           <section className="mb-20">
-            <div className="text-center mb-10">
-              <span className="text-[#B8860B] text-xs font-bold uppercase tracking-widest">👥 Sponsor Membership</span>
-              <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#333333] mt-2 mb-3">
-                Become a <span className="bg-gradient-to-r from-[#F4C430] to-[#FF8C00] bg-clip-text text-transparent">Dharma Ideal Sponsor</span>
-              </h2>
-              <p className="text-[#7A5200] max-w-2xl mx-auto">
-                Four membership tiers for individuals and corporates committed to global peace, spiritual growth, and lasting impact.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {MEMBERSHIP_TIERS.map((tier, idx) => (
-                <div key={idx} className={`relative group rounded-3xl overflow-hidden transition-all duration-300 ${tier.featured ? "shadow-2xl shadow-[#F4C430]/40 ring-2 ring-[#F4C430]" : "shadow-card"} hover:shadow-glow bg-white`}>
-                  <div className={`bg-gradient-to-r ${tier.color} px-6 py-5 relative`}>
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                        <tier.icon className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-serif text-lg font-bold text-white leading-tight">{tier.name}</h3>
-                        <p className="text-white/80 text-xs">{tier.duration}</p>
-                      </div>
-                    </div>
-                    {tier.featured && (
-                      <div className="absolute top-3 right-4 px-3 py-1 bg-white text-[#F4C430] text-xs font-bold rounded-full">
-                        Most Popular
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="p-6">
-                    <div className="flex flex-wrap gap-2 mb-5">
-                      <span className="inline-flex items-center gap-1.5 bg-[#FFF8E7] rounded-lg px-3 py-1.5 border border-[#F4C430]/20">
-                        <span className="text-xs text-[#7A5200] font-medium">🇮🇳 INR</span>
-                        <span className="font-bold text-[#333333]">{tier.priceINR}</span>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 bg-[#FFF8E7] rounded-lg px-3 py-1.5 border border-[#F4C430]/20">
-                        <span className="text-xs text-[#7A5200] font-medium">🇳🇵 NPR</span>
-                        <span className="font-bold text-[#333333]">{tier.priceNPR}</span>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 bg-[#FFF8E7] rounded-lg px-3 py-1.5 border border-[#F4C430]/20">
-                        <span className="text-xs text-[#7A5200] font-medium">🌍 USD</span>
-                        <span className="font-bold text-[#333333]">{tier.priceForeign}</span>
-                      </span>
-                    </div>
-
-                    <p className="text-[#7A5200] text-sm leading-relaxed mb-5 italic border-l-2 border-[#F4C430]/40 pl-3">
-                      {tier.commitment}
-                    </p>
-
-                    <ul className="space-y-2 mb-6">
-                      {tier.features.map((feature, fidx) => (
-                        <li key={fidx} className="flex items-start gap-2 text-[#7A5200] text-sm">
-                          <Heart className="w-4 h-4 text-[#F4C430] flex-shrink-0 mt-0.5" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <Button
-                      onClick={() => setMembershipForm({ open: true, tierName: tier.name, priceINR: tier.priceINR, priceNPR: tier.priceNPR })}
-                      className={`w-full ${tier.featured ? "bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white border-0" : "border-2 border-[#F4C430] text-[#F4C430] bg-transparent hover:bg-[#F4C430]/10"} hover:shadow-glow`}
-                    >
-                      Become {tier.shortName}
+            <div className="rounded-3xl bg-gradient-to-br from-[#FFF8E7] to-white border border-[#F4C430]/30 p-8 md:p-12 relative overflow-hidden">
+              <DharmaWheel className="absolute -top-12 -right-12 w-56 h-56 text-[#F4C430] opacity-10" />
+              <div className="relative grid lg:grid-cols-2 gap-8 items-center">
+                <div>
+                  <span className="text-[#B8860B] text-xs font-bold uppercase tracking-widest">👥 Become Dharma Ideal</span>
+                  <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#333333] mt-2 mb-4">
+                    Looking for{" "}
+                    <span className="bg-gradient-to-r from-[#F4C430] to-[#FF8C00] bg-clip-text text-transparent">
+                      Personal Membership?
+                    </span>
+                  </h2>
+                  <p className="text-[#7A5200] leading-relaxed mb-6">
+                    Beyond event sponsorship, you can commit to a personal Dharma journey. Our four
+                    Dharma Ideal Member tiers — from <strong>1 Year</strong> to <strong>Lifetime</strong>,
+                    individuals to corporates — offer ongoing spiritual guidance, member benefits,
+                    and lasting recognition.
+                  </p>
+                  <Link to="/membership">
+                    <Button className="bg-gradient-to-r from-[#FF8C00] to-[#F4C430] text-white border-0 px-7 py-6 text-base">
+                      Explore 4 Membership Tiers <ChevronRight className="w-5 h-5 ml-2" />
                     </Button>
-                  </div>
+                  </Link>
                 </div>
-              ))}
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: "1 Year Sponsor", price: "INR 10,000" },
+                    { label: "Decade Sponsor", price: "INR 1,00,000" },
+                    { label: "Gem Life Sponsor", price: "INR 5,00,000" },
+                    { label: "Corporate Sponsor", price: "INR 20,99,999" },
+                  ].map((t) => (
+                    <div key={t.label} className="bg-white border border-[#F4C430]/20 rounded-2xl p-4">
+                      <p className="text-xs text-[#B8860B] font-bold uppercase tracking-widest">{t.label}</p>
+                      <p className="font-serif text-base font-bold text-[#333333] mt-1">{t.price}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
 
@@ -1381,7 +1177,6 @@ const SponsorPage = () => {
       {/* ── Dialogs ───────────────────────────────────────────────────────── */}
       <SponsorFormDialog open={sponsorForm.open} onOpenChange={(v) => setSponsorForm({ ...sponsorForm, open: v })} eventName={sponsorForm.eventName} sponsorType={sponsorForm.sponsorType} />
       <DonationFormDialog open={donationForm.open} onOpenChange={(v) => setDonationForm({ ...donationForm, open: v })} title={donationForm.title} />
-      <MembershipFormDialog open={membershipForm.open} onOpenChange={(v) => setMembershipForm({ ...membershipForm, open: v })} tierName={membershipForm.tierName} priceINR={membershipForm.priceINR} priceNPR={membershipForm.priceNPR} />
 
       <Footer />
     </main>

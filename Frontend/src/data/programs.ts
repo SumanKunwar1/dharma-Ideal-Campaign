@@ -18,38 +18,7 @@ export interface Program {
 }
 
 export const programs: Program[] = [
-  {
-    id: "free-education",
-    icon: GraduationCap,
-    title: "Free Education",
-    description:
-      "Providing quality education to disadvantaged children, helping them break cycles of poverty and build brighter futures.",
-    impact: "5,000+ children enrolled annually",
-    gradient: "from-[#1E90FF] to-[#3CB371]",
-    banner: "/classroom-learning.png",
-    fullDescription:
-      "Our Free Education Program is dedicated to providing access to quality education for underprivileged children across rural and urban areas. We believe that education is a fundamental right and a powerful tool for social transformation. Through our comprehensive curriculum, trained educators, and modern learning resources, we ensure every child has the opportunity to learn, grow, and achieve their dreams.",
-    highlights: [
-      "Free quality education for underprivileged children",
-      "Trained and dedicated educators",
-      "Modern curriculum and learning materials",
-      "Scholarship programs for higher education",
-      "Community engagement and family support",
-      "Digital literacy programs",
-    ],
-    howItWorks: [
-      "Identify communities with limited educational access",
-      "Establish learning centers with basic infrastructure",
-      "Recruit and train qualified educators",
-      "Provide free curriculum and educational materials",
-      "Monitor student progress and provide mentorship",
-      "Support transition to formal schools and higher education",
-    ],
-    targetAudience: "Children aged 5-18 from disadvantaged backgrounds",
-    fundingGoal: 500000,
-    fundingRaised: 325000,
-    beneficiaries: "5,000+ children",
-  },
+  
   {
     id: "nyingje-lahakhang",
     icon: Home,
@@ -85,7 +54,7 @@ export const programs: Program[] = [
   {
     id: "pilgrimage-tours",
     icon: Mountain,
-    title: "Pilgrimage Tours",
+    title: "World Peace Prayers ",
     description:
       "Guided tours with spiritual teachers, meditation practices, and inner peace experiences in sacred lands.",
     impact: "2,000+ pilgrims annually",
@@ -114,37 +83,7 @@ export const programs: Program[] = [
     fundingRaised: 190000,
     beneficiaries: "2,000+ pilgrims annually",
   },
-  {
-    id: "medical-support",
-    icon: HeartPulse,
-    title: "Medical Support",
-    description: "We raise funds to help individuals battling life-threatening health conditions with critical care.",
-    impact: "$500K+ raised for medical aid",
-    gradient: "from-[#CD5C5C] to-[#FF8C00]",
-    banner: "/medical-healthcare-hospital-support.jpg",
-    fullDescription:
-      "Our Medical Support Program provides emergency and critical medical assistance to individuals facing life-threatening health conditions. We raise funds to cover expensive treatments, surgeries, and ongoing medical care that would otherwise be inaccessible to those in need.",
-    highlights: [
-      "Emergency medical fund assistance",
-      "Critical surgery and treatment support",
-      "Ongoing medication and healthcare costs",
-      "Awareness and health education programs",
-      "Partnership with hospitals and clinics",
-      "Follow-up care and rehabilitation support",
-    ],
-    howItWorks: [
-      "Identify individuals with critical medical needs",
-      "Assess medical condition and treatment requirements",
-      "Calculate funding needed and create campaigns",
-      "Raise funds through community and donor support",
-      "Coordinate with medical facilities",
-      "Monitor patient recovery and provide follow-up care",
-    ],
-    targetAudience: "Individuals facing life-threatening health conditions",
-    fundingGoal: 750000,
-    fundingRaised: 500000,
-    beneficiaries: "$500K+ raised",
-  },
+ 
   {
     id: "monastic-education",
     icon: BookOpen,
@@ -176,37 +115,7 @@ export const programs: Program[] = [
     fundingRaised: 120000,
     beneficiaries: "300+ monks",
   },
-  {
-    id: "women-empowerment",
-    icon: Users,
-    title: "Women Empowerment",
-    description: "Skill development programs empowering women to achieve financial independence and leadership.",
-    impact: "1,500+ women trained",
-    gradient: "from-[#DAA520] to-[#CD5C5C]",
-    banner: "/women-in-skill-training-workshop-empowerment.jpg",
-    fullDescription:
-      "Our Women Empowerment Program focuses on equipping women with practical skills, knowledge, and confidence to achieve financial independence and leadership roles. Through vocational training, business education, and mentorship, we help women transform their lives and communities.",
-    highlights: [
-      "Vocational skill training programs",
-      "Business and entrepreneurship education",
-      "Financial literacy and management",
-      "Mentorship from successful women leaders",
-      "Access to microfinance and loans",
-      "Support networks and community groups",
-    ],
-    howItWorks: [
-      "Identify women seeking skill development",
-      "Assess needs and interests",
-      "Provide vocational training",
-      "Teach business and financial skills",
-      "Facilitate mentorship relationships",
-      "Support income generation activities",
-    ],
-    targetAudience: "Women from underprivileged backgrounds seeking economic independence",
-    fundingGoal: 400000,
-    fundingRaised: 275000,
-    beneficiaries: "1,500+ women",
-  },
+  
 ]
 
 export const getProgramById = (id: string): Program | undefined => {

@@ -62,7 +62,7 @@ const slides: Slide[] = [
     description:
       "17 sacred days. 700 practitioners daily. A globally recognized spiritual gathering. Stand alongside this transformational movement as a Title, Powered-By, Co, Associate, Partner, or Supporting sponsor.",
     image:
-      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1920&q=80",
+      "https://res.cloudinary.com/dcsgax3ld/image/upload/v1777374920/a-cinematic-wide-angle-photograph-of-a-t_d9amAwV3QQmjpVyfgvTPiA_v3UPHrVHTn2UfBLxMojWaA_sd_hkcemu.jpg",
     primary: { kind: "navigate", to: "/sponsor#ngyungne-retreat", label: "Become Ngyungne Sponsor" },
   },
   {
@@ -71,7 +71,7 @@ const slides: Slide[] = [
     description:
       "Reserve your seat for a weekend of meditation, mindfulness, and Buddhist practice at BTMC, Jorpati, Kathmandu. Free for all participants — students, professionals, families, seekers.",
     image:
-      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1920&q=80",
+      "https://res.cloudinary.com/dcsgax3ld/image/upload/v1777374515/a-wide-cinematic-digital-painting-in-a-1_suE4TJY5SnWuIlZlAufYOQ_uSABkiHGQquyZ436y5fsaQ_sd_xwl26x.jpg",
     primary: { kind: "navigate", to: "/programs", label: "Register Now" },
   },
   {

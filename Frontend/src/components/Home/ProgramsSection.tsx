@@ -2,14 +2,7 @@ import { GraduationCap, Home, Mountain, HeartPulse, BookOpen, Users, ArrowRight 
 import { Button } from "@/components/ui/button";
 
 const programs = [
-  {
-    icon: GraduationCap,
-    title: "Free Education",
-    description: "Providing quality education to disadvantaged children, helping them break cycles of poverty.",
-    color: "spiritual-blue",
-    bgClass: "bg-spiritual-blue/10",
-    iconBg: "bg-spiritual-blue",
-  },
+  
   {
     icon: Home,
     title: "Nyingje Lahakhang",
@@ -20,20 +13,13 @@ const programs = [
   },
   {
     icon: Mountain,
-    title: "Pilgrimage Tours",
+    title: "World Peace Prayers",
     description: "Guided tours with spiritual teachers, meditation practices, and inner peace experiences.",
     color: "spiritual-green",
     bgClass: "bg-spiritual-green/10",
     iconBg: "bg-spiritual-green",
   },
-  {
-    icon: HeartPulse,
-    title: "Medical Support",
-    description: "We raise funds to help individuals battling life-threatening health conditions.",
-    color: "spiritual-red",
-    bgClass: "bg-spiritual-red/10",
-    iconBg: "bg-spiritual-red",
-  },
+  
   {
     icon: BookOpen,
     title: "Monastic Education",
@@ -42,14 +28,7 @@ const programs = [
     bgClass: "bg-saffron/10",
     iconBg: "gradient-saffron",
   },
-  {
-    icon: Users,
-    title: "Women Empowerment",
-    description: "Skill development programs empowering women to achieve financial independence.",
-    color: "deep-gold",
-    bgClass: "bg-deep-gold/10",
-    iconBg: "bg-deep-gold",
-  },
+ 
 ];
 
 const ProgramsSection = () => {

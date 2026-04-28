@@ -53,7 +53,7 @@ const AboutSection = () => {
           <div className="relative">
             <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-card">
               <img
-                src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80"
+                src="https://res.cloudinary.com/dcsgax3ld/image/upload/v1777374805/a-cinematic-wide-angle-photograph-of-a-t_vm-KCpfSRjWpUzbIXQNJKg_v3UPHrVHTn2UfBLxMojWaA_sd_cuvwin.jpg"
                 alt="Buddhist temple with offerings and prayer lamps"
                 className="w-full h-full object-cover"
               />
